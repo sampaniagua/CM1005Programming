@@ -24,6 +24,23 @@ var collectables;
 var game_score;
 var flagpole;
 var lives;
+var jumpSound;
+var jumpRing;
+var endGame;
+
+function preload()
+{
+    soundFormats('mp3','wav');
+    
+    //load your sounds here
+    jumpSound = loadSound('sound_template/assets/jump.wav');
+    jumpRing = loadSound('sound_template/assets/ring.wav');
+    endGame = loadSound('sound_template/assets/end.wav');
+    jumpSound.setVolume(0.1);
+    jumpRing.setVolume(0.1);
+    endGame.setVolume(0.1);
+}
+
 
 function setup()
 {
@@ -116,6 +133,8 @@ function draw()
                 {
                     drawCollectable(collectables[i]);
                     checkCollectable(collectables[i]);
+               
+                  
                 }
         }
     
@@ -231,6 +250,7 @@ function keyPressed(){
                    {
                     console.log("spacebar");
                     gameChar_y -=100;
+                    jumpSound.play();
                    }
             }
 
@@ -462,6 +482,7 @@ function checkCollectable(t_collectable)
         {
             t_collectable.isFound = true;
             game_score += 1;
+            jumpRing.play();
         }
      
           
@@ -496,6 +517,7 @@ function checkFlagpole()
     if(d < 15)
         {
             flagpole.isReached = true;
+            endGame.play();
             
         }
     
